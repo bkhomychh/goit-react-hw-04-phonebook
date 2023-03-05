@@ -21,7 +21,14 @@ export class App extends Component {
     this.setState({ contacts });
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(_, prevState) {
+    const prevContacts = prevState.contacts;
+    const currentContacts = this.state.contacts;
+
+    if (prevContacts === currentContacts) {
+      return;
+    }
+
     saveDataToStorage('contacts', this.state.contacts);
   }
 
