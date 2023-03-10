@@ -1,32 +1,27 @@
-import { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { Label, SearchField } from './Filter.styled';
 
-export class Filter extends Component {
-  static propTypes = {
-    searchQuery: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
+export const Filter = ({ searchQuery, updateFilter }) => {
+  const handleChange = ({ target }) => {
+    updateFilter(target.value);
   };
 
-  handleChange = ({ target }) => {
-    this.props.onChange(target.value);
-  };
+  return (
+    <Label>
+      Find contacts by name
+      <SearchField
+        type="text"
+        name="filter"
+        pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+        value={searchQuery}
+        onChange={handleChange}
+      />
+    </Label>
+  );
+};
 
-  render() {
-    const { searchQuery } = this.props;
-
-    return (
-      <Label>
-        Find contacts by name
-        <SearchField
-          type="text"
-          name="filter"
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          value={searchQuery}
-          onChange={this.handleChange}
-        />
-      </Label>
-    );
-  }
-}
+Filter.propTypes = {
+  searchQuery: PropTypes.string.isRequired,
+  updateFilter: PropTypes.func.isRequired,
+};
